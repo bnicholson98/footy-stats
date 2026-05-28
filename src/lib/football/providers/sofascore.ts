@@ -180,7 +180,7 @@ export class SofascoreProvider implements FootballProvider {
       team: {
         id: String(row.team.id),
         name: row.team.name,
-        shortName: row.team.shortName ?? row.team.nameCode,
+        shortName: row.team.nameCode ?? row.team.shortName,
       },
       played: row.matches,
       won: row.wins,
@@ -215,7 +215,7 @@ export class SofascoreProvider implements FootballProvider {
     return {
       id: String(t.id),
       name: t.name,
-      shortName: t.shortName ?? t.nameCode,
+      shortName: t.nameCode ?? t.shortName,
       country: t.country?.name,
       founded: t.foundationDateTimestamp
         ? new Date(t.foundationDateTimestamp * 1000).getUTCFullYear()
@@ -241,7 +241,7 @@ export class SofascoreProvider implements FootballProvider {
         ? {
             id: String(p.team.id),
             name: p.team.name,
-            shortName: p.team.shortName ?? p.team.nameCode,
+            shortName: p.team.nameCode ?? p.team.shortName,
           }
         : undefined,
       nationality: p.country?.name,
