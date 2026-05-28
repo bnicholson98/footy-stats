@@ -4,8 +4,9 @@ export * from "./types";
 
 import type { FootballProvider } from "./provider";
 import { MockProvider } from "./providers/mock";
+import { SofascoreProvider } from "./providers/sofascore";
+import { CachedProvider } from "./providers/cached";
 
-// Singleton — real providers will benefit from reusing connections
 let cached: FootballProvider | null = null;
 
 export function getProvider(): FootballProvider {
@@ -16,6 +17,10 @@ export function getProvider(): FootballProvider {
   switch (name) {
     case "mock":
       cached = new MockProvider();
+      return cached;
+    case "sofascore":
+      // 5-minute TTL; protects the 500 req/month budget
+      cached = new CachedProvider(new SofascoreProvider(), 300);
       return cached;
     default:
       throw new Error(`Unknown football provider: "${name}"`);
