@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getProvider } from "../../../lib/football";
+import { EntityImage } from "../../../components/entity-image";
 
 export default async function TeamPage({
   params,
@@ -22,9 +23,12 @@ export default async function TeamPage({
 
   return (
     <>
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold">{team.name}</h1>
-        {details && <p className="mt-1 text-gray-400">{details}</p>}
+      <div className="mb-8 flex items-center gap-4">
+        <EntityImage src={team.crestUrl} alt={team.name} size={64} />
+        <div>
+          <h1 className="text-3xl font-bold">{team.name}</h1>
+          {details && <p className="mt-1 text-gray-400">{details}</p>}
+        </div>
       </div>
 
       {team.squad.length > 0 ? (

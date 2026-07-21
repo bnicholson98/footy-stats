@@ -20,6 +20,14 @@ const POSITION_MAP: Record<string, string> = {
   G: "Goalkeeper",
 };
 
+// ── Image URLs ───────────────────────────────────────────────
+
+// Public SofaScore CDN, deterministic from IDs — no API call, no RapidAPI quota.
+const IMG_BASE = "https://img.sofascore.com/api/v1";
+const leagueLogoUrl = (id: string | number) => `${IMG_BASE}/unique-tournament/${id}/image`;
+const teamCrestUrl = (id: string | number) => `${IMG_BASE}/team/${id}/image`;
+const playerImageUrl = (id: string | number) => `${IMG_BASE}/player/${id}/image`;
+
 // ── SofaScore response schemas (only fields we consume) ──────
 
 const ssTeamRef = z.object({
@@ -147,6 +155,7 @@ export class SofascoreProvider implements FootballProvider {
       name: l.name,
       country: l.country,
       season: l.season,
+      logoUrl: leagueLogoUrl(l.tournamentId),
     }));
   }
 
@@ -158,6 +167,7 @@ export class SofascoreProvider implements FootballProvider {
       name: cfg.name,
       country: cfg.country,
       season: cfg.season,
+      logoUrl: leagueLogoUrl(cfg.tournamentId),
     };
   }
 
@@ -181,6 +191,7 @@ export class SofascoreProvider implements FootballProvider {
         id: String(row.team.id),
         name: row.team.name,
         shortName: row.team.nameCode ?? row.team.shortName,
+        crestUrl: teamCrestUrl(row.team.id),
       },
       played: row.matches,
       won: row.wins,
@@ -209,6 +220,7 @@ export class SofascoreProvider implements FootballProvider {
           name: p.name,
           position: mapPosition(p.position),
           shirtNumber: p.shirtNumber,
+          imageUrl: playerImageUrl(p.id),
         }))
       : [];
 
@@ -216,6 +228,7 @@ export class SofascoreProvider implements FootballProvider {
       id: String(t.id),
       name: t.name,
       shortName: t.nameCode ?? t.shortName,
+      crestUrl: teamCrestUrl(t.id),
       country: t.country?.name,
       founded: t.foundationDateTimestamp
         ? new Date(t.foundationDateTimestamp * 1000).getUTCFullYear()
@@ -237,11 +250,13 @@ export class SofascoreProvider implements FootballProvider {
       name: p.name,
       position: mapPosition(p.position),
       shirtNumber: p.shirtNumber,
+      imageUrl: playerImageUrl(p.id), 
       team: p.team
         ? {
             id: String(p.team.id),
             name: p.team.name,
             shortName: p.team.nameCode ?? p.team.shortName,
+            crestUrl: teamCrestUrl(p.team.id),
           }
         : undefined,
       nationality: p.country?.name,

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getProvider } from "../../../lib/football";
+import { EntityImage } from "../../../components/entity-image";
 
 export default async function LeaguePage({
   params,
@@ -25,10 +26,13 @@ export default async function LeaguePage({
         >
           ← Leagues
         </Link>
-        <h1 className="mt-2 text-3xl font-bold">{league.name}</h1>
-        <p className="mt-1 text-gray-400">
-          {league.country} · {league.season}
-        </p>
+        <div className="mt-2 flex items-center gap-4">
+          <EntityImage src={league.logoUrl} alt={league.name} size={48} />
+          <div>
+            <h1 className="text-3xl font-bold">{league.name}</h1>
+            <p className="mt-1 text-gray-400">{league.country} · {league.season}</p>
+          </div>
+        </div>
       </div>
 
       {standings.length === 0 ? (

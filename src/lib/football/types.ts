@@ -49,6 +49,7 @@ export interface Player extends PlayerRef {
   nationality?: string;
   dateOfBirth?: string;
   stats?: PlayerStats;
+  imageUrl?: string;
 }
 
 export interface PlayerStats {

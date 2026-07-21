@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getProvider } from "../../../lib/football";
 import type { PlayerStats } from "../../../lib/football";
+import { EntityImage } from "../../../components/entity-image";
 
 export default async function PlayerPage({
   params,
@@ -16,29 +17,32 @@ export default async function PlayerPage({
   return (
     <>
       <div className="mb-8">
-        <h1 className="text-3xl font-bold">{player.name}</h1>
-        <p className="mt-1 text-gray-400">
-          {[player.position, player.shirtNumber && `#${player.shirtNumber}`]
-            .filter(Boolean)
-            .join(" · ")}
-        </p>
-        <p className="mt-1 text-gray-400">
-          {player.team && (
-            <Link
-              href={`/teams/${player.team.id}`}
-              className="hover:text-white transition-colors"
-            >
-              {player.team.name}
-            </Link>
-          )}
-          {player.team && player.nationality && " · "}
-          {player.nationality}
-        </p>
-        {player.dateOfBirth && (
-          <p className="mt-1 text-sm text-gray-500">
-            Born {formatDate(player.dateOfBirth)}
+        <EntityImage src={player.imageUrl} alt={player.name} size={80} rounded />
+        <div>
+          <h1 className="text-3xl font-bold">{player.name}</h1>
+          <p className="mt-1 text-gray-400">
+            {[player.position, player.shirtNumber && `#${player.shirtNumber}`]
+              .filter(Boolean)
+              .join(" · ")}
           </p>
-        )}
+          <p className="mt-1 text-gray-400">
+            {player.team && (
+              <Link
+                href={`/teams/${player.team.id}`}
+                className="hover:text-white transition-colors"
+              >
+                {player.team.name}
+              </Link>
+            )}
+            {player.team && player.nationality && " · "}
+            {player.nationality}
+          </p>
+          {player.dateOfBirth && (
+            <p className="mt-1 text-sm text-gray-500">
+              Born {formatDate(player.dateOfBirth)}
+            </p>
+          )}
+        </div>
       </div>
 
       {player.stats && <StatsGrid stats={player.stats} />}
