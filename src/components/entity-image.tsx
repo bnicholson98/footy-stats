@@ -40,6 +40,7 @@ export function EntityImage({
       width={size}
       height={size}
       loading="lazy"
+      referrerPolicy="no-referrer"
       onError={() => setFailed(true)}
       className={`shrink-0 bg-gray-900 ${rounded ? "object-cover" : "object-contain"} ${shape}`}
     />
