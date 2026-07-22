@@ -118,6 +118,7 @@ async function fetchApi(
 
   const res = await fetch(url, {
     headers: { "x-rapidapi-host": API_HOST, "x-rapidapi-key": key },
+    next: { revalidate: 3600 },
   });
 
   if (!res.ok) {
