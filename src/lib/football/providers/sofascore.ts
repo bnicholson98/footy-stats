@@ -24,9 +24,11 @@ const POSITION_MAP: Record<string, string> = {
 
 // Public SofaScore CDN, deterministic from IDs — no API call, no RapidAPI quota.
 const IMG_BASE = "https://img.sofascore.com/api/v1";
-const leagueLogoUrl = (id: string | number) => `${IMG_BASE}/unique-tournament/${id}/image`;
-const teamCrestUrl = (id: string | number) => `${IMG_BASE}/team/${id}/image`;
-const playerImageUrl = (id: string | number) => `${IMG_BASE}/player/${id}/image`;
+const proxyUrl = (raw: string) =>
+  `/api/img?url=${encodeURIComponent(raw)}`;
+const leagueLogoUrl  = (id: string | number) => proxyUrl(`${IMG_BASE}/unique-tournament/${id}/image`);
+const teamCrestUrl   = (id: string | number) => proxyUrl(`${IMG_BASE}/team/${id}/image`);
+const playerImageUrl = (id: string | number) => proxyUrl(`${IMG_BASE}/player/${id}/image`);
 
 // ── SofaScore response schemas (only fields we consume) ──────
 

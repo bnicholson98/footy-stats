@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import { useState } from "react";
 function initials(name: string): string {
   return name
@@ -35,11 +34,12 @@ export function EntityImage({
     );
   }
   return (
-    <Image
+    <img
       src={src}
       alt={alt}
       width={size}
       height={size}
+      loading="lazy"
       onError={() => setFailed(true)}
       className={`shrink-0 bg-gray-900 ${rounded ? "object-cover" : "object-contain"} ${shape}`}
     />
